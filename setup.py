@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup,find_packages
 
 def readme():
     with open('README.md') as f:
@@ -12,7 +12,7 @@ setup(
     description="A Package For Generating Domain Names.",
     long_description=readme(),
     long_description_content_type="text/markdown",
-    url="https://github.com/Jcharis/DomainGistry_CLI",
+    url="https://github.com/Jcharis/python-domaingistry",
     author="Jesse E.Agbe(JCharis)",
     author_email="jcharistech@gmail.com",
     license="MIT",
@@ -20,13 +20,14 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
+        "Operating System :: OS Independent",
     ],
-    packages=["domain-gistry"],
+    packages=find_packages(),
     include_package_data=True,
-    install_requires=["json"],
+    install_requires=["click","click-didyoumean"],
     entry_points={
         "console_scripts": [
-            "domaingistry=domaingistry.domaingistry:main",
+            "domain-gistry=domaingistry.cli:main",
         ]
     },
 )

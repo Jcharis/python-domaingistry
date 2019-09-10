@@ -1,0 +1,1 @@
+from .domaingistry import Domain

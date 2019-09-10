@@ -42,7 +42,7 @@ class Domain(object):
 		self.category = category
 
 	def __repr__(self):
-		return 'name:{},category:{}'.format(self.name,self.category)
+		return 'Domain(name:{},category:{})'.format(self.name,self.category)
 
 	def generate(self):
 		""" Generate A List of Domain Names using the name and the category"""
