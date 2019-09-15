@@ -1,6 +1,10 @@
 # python-domaingistry
 ## DomainGistry - A Domain Name Generation Package For Python
 
+[![Build Status](https://travis-ci.com/Jcharis/python-domaingistry.svg?branch=master)](https://travis-ci.com/Jcharis/python-domaingistry)
+
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/domaingistry)
+
 DomainGistry also comes with a CLI that you can use in the terminal as well as the package itself.
 
 #### DomainGistry Suite of Tools
