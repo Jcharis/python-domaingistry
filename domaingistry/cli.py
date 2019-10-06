@@ -3,7 +3,7 @@
 
 import click
 from click_didyoumean import DYMGroup
-import json
+import json,pprint
 
 new_domain = ['app','site','online','xyz','tech','ai','shop','blog','space','live','life','website','news','ninja','solutions','expert','services','media','rocks','company','guru','club','today','agency','technology','tips','center','link','click','ltd','win','work']
 
@@ -14,6 +14,8 @@ extra_domain =["asia","africa","us","me","biz","info","name","mobi","cc","tv","l
 prefix_domain = ['a','i','e','the','my','me','we','top','best','get','co','nu','up','new','live','bestof','meta','just','99','101','insta','try','hit','go','re','dr','mr','bit','net','hot','beta','you','our','x','buy','for','pro','ez','on','v','hd','max','digi','free','very','all','easy','cool','air','next','find','uber',]
 
 suffix_domain = ["online.com","world.com","io.com","me.com","you.com","up.com","new.com","blog.com","web.com","hd.com","hq.com","tip.com","tips.com","guru.com","link.com","sumo.com","mob.com","lab.com","labs.com","list.com","info.com","jar.com","egg.com","site.com","app.com","apps.com","net.com","inc.com","247.com","360.com","24x7.com","corp.com","page.com","llc.com","now.com","all.com","box.com","base.com","zone.com","zoom.com","bit.com","bits.com","byte.com","bros.com","cart.com","sale.com","shop.com","store.com","free.com","soft.com","101.com","center.com","pro.com","pros.com","co.com","space.com","hub.com","spot.com","ware.com","talk.com","place.com","kit.com","pad.com","tool.com","bot.com","bots.com","bee.com","doc.com",".com","al.com","ity.com","iput.com","ally.com","ality.com","alness.com","ipital.com"]
+
+sub_domain = ["account","adwords","afp","answers","api","app","bbs","blog","blogsearch","books","checkout","clients","clients1","cloud","code","dashboard","desktop","dev","dl","dns1","dns2","docs","earth","email","feedproxy","finance","forum","ftp","fusion","gmail","groups","host","images","mail","mail1","mail2","mailin1","mailin2","mailserver","manage","maps","mx","mx0","mx01","mx1","mx2","mx7","my","news","ns","ns1","ns2","ns3","ns4","owa","pack","partnerpage","picasa","picasaweb","pop","portal","r.1","r.2","r.3","redbusprimarydns","redbussecondarydns","remote","scholar","secure","secure","server","services","shop","sites","sketchup","smtp","spreadsheets","suggestqueries","support","talkgadget","test","toolbar","translate","video","video-stats.video","vpn","web","webmail","ww1","www"]
 
 
 def shufflize(word):
@@ -36,7 +38,7 @@ def shufflize(word):
 		
 
 @click.group(cls=DYMGroup)
-@click.version_option(version='0.0.1',prog_name='domain-gistry')
+@click.version_option(version='0.0.2',prog_name='domain-gistry')
 def main():
 	""" Domain-Gistry : A Domain Name Generation CLI
 		
@@ -89,6 +91,11 @@ def generate(name,category,save):
 			result = cust_list_prefix
 			with open(filename,"w+") as f:
 				f.write(json.dumps(result))
+		elif category == 'subdomain':
+			cust_list_subdomain = ['{}.{}.com'.format(i,raw_name) for i in sub_domain ]
+			result = cust_list_subdomain
+			with open(filename,"w+") as f:
+				f.write(json.dumps(result))
 		elif category == 'suffix':
 			cust_list_suffix = ['{}{}'.format(raw_name,i) for i in suffix_domain ]
 			result = cust_list_suffix
@@ -106,15 +113,18 @@ def generate(name,category,save):
 			cust_list_extra = ['{}.{}'.format(raw_name,i) for i in extra_domain ]
 			cust_list_prefix = ['{}{}.com'.format(i,raw_name) for i in prefix_domain ]
 			cust_list_suffix = ['{}{}'.format(raw_name,i) for i in suffix_domain ]
+			cust_list_subdomain = ['{}.{}.com'.format(i,raw_name) for i in sub_domain ]
 			cust_list_shuffled = ['{}.{}'.format(shufflize(name),i) for i in common_domain ]
-			result = {'common domains':cust_list_common,
+			non_prettified_result = {'common domains':cust_list_common,
 			'extra domains':cust_list_extra,
 			'new domains':cust_list_new,
 			'prefix domains':cust_list_prefix,
 			'suffix domains':cust_list_suffix,
+			'sub domains':cust_list_subdomain,
 			'shuffled_domains':cust_list_shuffled}
+			result = pprint.pprint(non_prettified_result)
 			with open(new_filename,"w+") as f:
-				f.write(json.dumps(result))
+				f.write(json.dumps(non_prettified_result))
 
 		else:
 			cust_list_common = ['{}.{}'.format(raw_name,i) for i in common_domain ]
@@ -135,6 +145,9 @@ def generate(name,category,save):
 		elif category == 'prefix':
 			cust_list_prefix = ['{}{}.com'.format(i,raw_name) for i in prefix_domain ]
 			result = cust_list_prefix
+		elif category == 'subdomain':
+			cust_list_subdomain = ['{}.{}.com'.format(i,raw_name) for i in sub_domain ]
+			result = cust_list_subdomain
 		elif category == 'suffix':
 			cust_list_suffix = ['{}{}'.format(raw_name,i) for i in suffix_domain ]
 			result = cust_list_suffix
@@ -146,14 +159,17 @@ def generate(name,category,save):
 			cust_list_new = ['{}.{}'.format(raw_name,i) for i in new_domain ]
 			cust_list_extra = ['{}.{}'.format(raw_name,i) for i in extra_domain ]
 			cust_list_prefix = ['{}{}.com'.format(i,raw_name) for i in prefix_domain ]
+			cust_list_subdomain = ['{}.{}.com'.format(i,raw_name) for i in sub_domain ]
 			cust_list_suffix = ['{}{}'.format(raw_name,i) for i in suffix_domain ]
 			cust_list_shuffled = ['{}.{}'.format(shufflize(name),i) for i in common_domain ]
-			result = {'common domains':cust_list_common,
+			non_prettified_result = {'common domains':cust_list_common,
 			'extra domains':cust_list_extra,
 			'new domains':cust_list_new,
 			'prefix domains':cust_list_prefix,
+			'sub domains':cust_list_subdomain,
 			'suffix domains':cust_list_suffix,
 			'shuffled_domains':cust_list_shuffled}
+			result = pprint.pprint(non_prettified_result)
 
 		else:
 			cust_list_common = ['{}.{}'.format(raw_name,i) for i in common_domain ]
@@ -241,6 +257,22 @@ def get_suffix(name):
 
 @main.command()
 @click.argument('name')
+def get_subdomain(name):
+	""" Get Sub Domain Names [blog.example.com,app.example.com]
+
+	eg. domain-gistry get-subdomain example
+
+	eg. domain-gistry get-subdomain example
+
+	"""
+	click.secho("Showing Sub-Domain Names For :: {}".format(name),fg='white',bg='blue')
+	raw_name = "".join(name.lower().split(" "))
+	cust_list_subdomain = ['{}.{}.com'.format(i,raw_name) for i in sub_domain ]
+	click.echo(cust_list_subdomain)
+
+
+@main.command()
+@click.argument('name')
 def get_shuffled(name):
 	""" Get Shuffled Domain Names (usually more than one term) [exampletop.com,topexample.com]
 
@@ -273,16 +305,18 @@ def get_all(name,save):
 		cust_list_extra = ['{}.{}'.format(raw_name,i) for i in extra_domain ]
 		cust_list_prefix = ['{}{}.com'.format(i,raw_name) for i in prefix_domain ]
 		cust_list_suffix = ['{}{}'.format(raw_name,i) for i in suffix_domain ]
+		cust_list_subdomain = ['{}.{}.com'.format(i,raw_name) for i in sub_domain ]
 		cust_list_shuffled = ['{}.{}'.format(shufflize(name),i) for i in common_domain ]
 		all_list = {'common domains':cust_list_common,
 		 'extra domains':cust_list_extra,
 		 'new domains':cust_list_new,
 		 'prefix domains':cust_list_prefix,
+		 'sub domains':cust_list_subdomain,
 		 'suffix domains':cust_list_suffix,
 		 'shuffled_domains':cust_list_shuffled}
 		with open(filename,"w+") as f:
 			f.write(json.dumps(all_list))
-		click.echo(all_list)
+		click.echo(json.dumps(all_list,indent=4, sort_keys=True))
 		click.secho('Saved Results to File {}'.format(filename),fg='white',bg='green')
 	else:
 		cust_list_common = ['{}.{}'.format(raw_name,i) for i in common_domain ]
@@ -290,14 +324,16 @@ def get_all(name,save):
 		cust_list_extra = ['{}.{}'.format(raw_name,i) for i in extra_domain ]
 		cust_list_prefix = ['{}{}.com'.format(i,raw_name) for i in prefix_domain ]
 		cust_list_suffix = ['{}{}'.format(raw_name,i) for i in suffix_domain ]
+		cust_list_subdomain = ['{}.{}.com'.format(i,raw_name) for i in sub_domain ]
 		cust_list_shuffled = ['{}.{}'.format(shufflize(name),i) for i in common_domain ]
 		all_list = {'common domains':cust_list_common,
 		 'extra domains':cust_list_extra,
 		 'new domains':cust_list_new,
 		 'prefix domains':cust_list_prefix,
 		 'suffix domains':cust_list_suffix,
+		 'sub domains':cust_list_subdomain,
 		 'shuffled_domains':cust_list_shuffled}
-		click.echo(all_list)
+		click.echo(json.dumps(all_list,indent=4, sort_keys=True))
 
 @main.command()
 def info():
@@ -311,7 +347,7 @@ def info():
 
 
 	click.secho('Name:: {}'.format('DomainGistry-CLI'),bg='red')
-	click.secho('Version:: {}'.format('0.0.1'),bg='yellow')
+	click.secho('Version:: {}'.format('0.0.2'),bg='yellow')
 	click.secho('Motto:: {}'.format('Jesus Saves@JCharisTech'),bg='green')
 	click.secho('Author:: {}'.format('Jesse E Agbe(JCharis)'),bg='blue')
 

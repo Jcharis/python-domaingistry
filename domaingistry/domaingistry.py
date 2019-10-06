@@ -6,6 +6,7 @@ common_domain = ['com','edu','net','org','site','co','io','ai','app','ca','uk','
 extra_domain =["asia","africa","us","me","biz","info","name","mobi","cc","tv","ly","tk","ml","it","to","eu","ch","online"]
 prefix_domain = ['a','i','e','the','my','me','we','top','best','get','co','nu','up','new','live','bestof','meta','just','99','101','insta','try','hit','go','re','dr','mr','bit','net','hot','beta','you','our','x','buy','for','pro','ez','on','v','hd','max','digi','free','very','all','easy','cool','air','next','find','uber',]
 suffix_domain = ["online.com","world.com","io.com","me.com","you.com","up.com","new.com","blog.com","web.com","hd.com","hq.com","tip.com","tips.com","guru.com","link.com","sumo.com","mob.com","lab.com","labs.com","list.com","info.com","jar.com","egg.com","site.com","app.com","apps.com","net.com","inc.com","247.com","360.com","24x7.com","corp.com","page.com","llc.com","now.com","all.com","box.com","base.com","zone.com","zoom.com","bit.com","bits.com","byte.com","bros.com","cart.com","sale.com","shop.com","store.com","free.com","soft.com","101.com","center.com","pro.com","pros.com","co.com","space.com","hub.com","spot.com","ware.com","talk.com","place.com","kit.com","pad.com","tool.com","bot.com","bots.com","bee.com","doc.com",".com","al.com","ity.com","iput.com","ally.com","ality.com","alness.com","ipital.com"]
+sub_domain = ["account","adwords","afp","answers","api","app","bbs","blog","blogsearch","books","checkout","clients","clients1","cloud","code","dashboard","desktop","dev","dl","dns1","dns2","docs","earth","email","feedproxy","finance","forum","ftp","fusion","gmail","groups","host","images","mail","mail1","mail2","mailin1","mailin2","mailserver","manage","maps","mx","mx0","mx01","mx1","mx2","mx7","my","news","ns","ns1","ns2","ns3","ns4","owa","pack","partnerpage","picasa","picasaweb","pop","portal","r.1","r.2","r.3","redbusprimarydns","redbussecondarydns","remote","scholar","secure","secure","server","services","shop","sites","sketchup","smtp","spreadsheets","suggestqueries","support","talkgadget","test","toolbar","translate","video","video-stats.video","vpn","web","webmail","ww1","www"]
 
 # Shuffling Fxn
 def shufflize(word):
@@ -55,6 +56,8 @@ class Domain(object):
 			result = ['{}.{}'.format(new_name,i)for i in extra_domain]
 		elif self.category == 'prefix':
 			result = ['{}{}.com'.format(i,new_name)for i in prefix_domain]
+		elif self.category == 'subdomain':
+			result = ['{}.{}.com'.format(i,new_name)for i in sub_domain]
 		elif self.category == 'suffix':
 			result = ['{}{}'.format(new_name,i)for i in suffix_domain]
 		else:
@@ -83,8 +86,15 @@ class Domain(object):
 	def get_prefix(self):
 		""" Generate A List of Prefixed Domain Names eg. [topexample.com,thedomain.com]"""
 		new_name = "".join(self.name.lower().split(" "))
-		result = ['{}{}.com'.format(new_name,i)for i in common_domain]
+		result = ['{}{}.com'.format(i,new_name)for i in prefix_domain]
 		return result
+
+	def get_subdomain(self):
+		""" Generate A List of Prefixed Domain Names eg. [topexample.com,thedomain.com]"""
+		new_name = "".join(self.name.lower().split(" "))
+		result = ['{}.{}.com'.format(i,new_name)for i in sub_domain]
+		return result
+
 
 	def get_suffix(self):
 		""" Generate A List of Suffixed Domain Names eg. [examplify.com,exampletop.com]"""
@@ -97,6 +107,13 @@ class Domain(object):
 		result = ['{}.{}'.format(shufflize(self.name.lower()),i) for i in common_domain ]
 		return result
 
+	@property 
+	def subdomain(self):
+		""" Generate A List of Prefixed Domain Names eg. [topexample.com,thedomain.com]"""
+		new_name = "".join(self.name.lower().split(" "))
+		result = ['{}.{}.com'.format(i,new_name)for i in sub_domain]
+		return result
+
 
 	def to_json(self):
 		""" Save A List of All Domain Names to JSON File """
@@ -107,16 +124,19 @@ class Domain(object):
 		cust_list_extra = ['{}.{}'.format(new_name,i) for i in extra_domain ]
 		cust_list_prefix = ['{}{}.com'.format(i,new_name) for i in prefix_domain ]
 		cust_list_suffix = ['{}{}'.format(new_name,i) for i in suffix_domain ]
+		cust_list_subdomain = ['{}.{}.com'.format(i,new_name) for i in sub_domain ]
 		cust_list_shuffled = ['{}.{}'.format(shufflize(self.name.lower()),i) for i in common_domain ]
 		result = {'common domains':cust_list_common,
 		'extra domains':cust_list_extra,
 		'new domains':cust_list_new,
 		'prefix domains':cust_list_prefix,
 		'suffix domains':cust_list_suffix,
+		'sub domains':cust_list_subdomain,
 		'shuffled_domains':cust_list_shuffled}
 		with open(new_filename,"w+") as f:
 				f.write(json.dumps(result))
 		print('Saved as:: {}'.format(new_filename))
+
 
 
 

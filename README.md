@@ -2,7 +2,6 @@
 ## DomainGistry - A Domain Name Generation Package For Python
 
 [![Build Status](https://travis-ci.com/Jcharis/python-domaingistry.svg?branch=master)](https://travis-ci.com/Jcharis/python-domaingistry)
-
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/domaingistry)
 
 DomainGistry also comes with a CLI that you can use in the terminal as well as the package itself.
@@ -86,6 +85,21 @@ Let us see how to use each category
 >>> d.get_shuffled()
 ```
 
+
+#### Get Sub Domain Names
+```python
+>>> from domaingistry import Domain
+>>> d = Domain('example')
+>>> d.get_subdomain()
+```
+
+#### Get Sub Domain Names (Alternatively)
+```python
+>>> from domaingistry import Domain
+>>> d = Domain('example')
+>>> d.subdomain
+```
+
 ### Saving Results To JSON
 
 #### Get Common Domain Names
@@ -133,7 +147,7 @@ domain-gistry generate "yourdomainname" --category common --save yes
 
 
 #### Generating Domain Names By Category 
-+ [Common | Extra | New | Prefixed | Suffixed]
++ [Common | Extra | New | Prefixed | Suffixed | SubDomain]
 + Generate the domain name per category and show it on the console
 
 #### Get Common Domain Names[.com,.org]
@@ -161,6 +175,12 @@ domain-gistry get-prefix "yourdomain name"
 #### Get Suffixed Domain Names[exampleworld.com,examplify.com]
 ```bash
 domain-gistry get-suffix "yourdomain name"
+
+```
+
+#### Get Sub Domain Names[blog.exampleworld.com,app.examplify.com,support.examplify.com]
+```bash
+domain-gistry get-subdomain "yourdomain name"
 
 ```
 

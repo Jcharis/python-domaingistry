@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name="domaingistry",
-    version="0.0.1",
+    version="0.0.2",
     description="A Package For Generating Domain Names.",
     long_description=readme(),
     long_description_content_type="text/markdown",
